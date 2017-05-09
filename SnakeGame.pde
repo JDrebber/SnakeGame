@@ -21,46 +21,46 @@ void setup() {
 void draw() {
   background(51);
 
-  // TODO: check whether the keyPressed variable is true.
-  //       If it is, check which is key is pressed, using
-  //       something like one of these: 
-  //         if (key == 'a') ...
-  //         if (keyCode == UP) ...
-  //       Then move the snake appropriately, using these:
-  //         s.dir(0, -1) moves the snake up
-  //         s.dir(0, 1) moves the snake down
-  //         s.dir(-1, 0) moves the snake left
-  //         s.dir(1, 0) moves the snake right
-  //       Then replace this comment with one of your own.
-  
+  if (keyPressed==true && key=='w') {
+    s.dir(0,-1);
+  } else if (keyPressed==true && key=='s') {
+   s.dir(0,1);
+  } else if (keyPressed==true && key=='d') {
+    s.dir(1,0);
+  } else if (keyPressed==true && key=='a') {
+    s.dir(-1,0);
+  }
+
   s.checkForPulse();
   s.update();
   s.show();
 
   gotFood = s.eat(food);
-  
-  // TODO: Write code that checks if
-  //       gotFood is true. If it is,
-  //       then call the function
-  //       setFoodLocation(). If it
-  //       is not true, then do nothing.
-  //       Then replace this comment with one of your own.
-  
+
+  if (gotFood) {
+    setFoodLocation();
+  }
+
   fill(255, 0, 100);
   rect(food.x, food.y, scl, scl);
-  
+
   status = "length: " + s.total;
+
+
+  text(status, 500, 45);
+
+
+  if (keyPressed==true && key == 'l') {
+    setFoodLocation();
+  }
   
-  // TODO: Write code that displays 
-  //       the current length of the snake.
-  //       Then replace this comment with one of your own.
-  //       If you need a hint, use the
-  //       examples in the Processing docs:
-  //       https://processing.org/reference/text_.html
+  
+  if (alive==false) {
+    text("You are Dead!", 250, 300);
+  }
+  
 
   // TODO: Extensions...
-  //       1. add a cheat. if mousePressed is true,
-  //          increase "s.total" (without the quotes) by one.
   //       2. check if the snake is dead. If it is,
   //          tell the user that the game is over!
   //       3. after you do #2, give the user an option to
@@ -68,8 +68,7 @@ void draw() {
   //       4. change any other parameters in the game (speed, size, colors, etc)
   //            - first tinker on your own
   //            - then ask a colleague if you need help or ideas
-  //       Then replace this comment with one of your own. 
-  
+  //       Then replace this comment with one of your own.
 }
 
 
@@ -114,7 +113,6 @@ class Snake {
       if (d < 1) {
         total = 0;
         alive = false;
-        tail.clear();
       }
     }
   }
@@ -141,7 +139,7 @@ class Snake {
     }
     rect(x, y, scl, scl);
   }
-  
+
   int getTotal() {
     return total;
   }
