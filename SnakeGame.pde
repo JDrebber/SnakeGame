@@ -20,15 +20,16 @@ void setup() {
 
 void draw() {
   background(51);
-
+  
+  //changes direction
   if (keyPressed==true && key=='w') {
-    s.dir(0,-1);
+    s.dir(0, -1);
   } else if (keyPressed==true && key=='s') {
-   s.dir(0,1);
+    s.dir(0, 1);
   } else if (keyPressed==true && key=='d') {
-    s.dir(1,0);
+    s.dir(1, 0);
   } else if (keyPressed==true && key=='a') {
-    s.dir(-1,0);
+    s.dir(-1, 0);
   }
 
   s.checkForPulse();
@@ -37,6 +38,7 @@ void draw() {
 
   gotFood = s.eat(food);
 
+//sets new food location if the players eats the old food
   if (gotFood) {
     setFoodLocation();
   }
@@ -49,20 +51,24 @@ void draw() {
 
   text(status, 500, 45);
 
-
+//cheat to move the food to a more advantageous location
   if (keyPressed==true && key == 'l') {
     setFoodLocation();
   }
-  
-  
+
+//alerts the player that they are dead
   if (alive==false) {
     text("You are Dead!", 250, 300);
+    text("Press x to restart", 240, 340);
   }
   
+  //resets the game
+  if (keyPressed==true && key=='x' && alive==false) {
+      s = new Snake();
+  }
+
 
   // TODO: Extensions...
-  //       2. check if the snake is dead. If it is,
-  //          tell the user that the game is over!
   //       3. after you do #2, give the user an option to
   //          restart the game (keyPress?)
   //       4. change any other parameters in the game (speed, size, colors, etc)
@@ -87,9 +93,7 @@ class Snake {
   float yspeed = 0;
   int total = 0;
   ArrayList<PVector> tail = new ArrayList<PVector>();
-
-  Snake() {
-  }
+  
 
   boolean eat(PVector pos) {
     float d = dist(x, y, pos.x, pos.y);
@@ -113,9 +117,12 @@ class Snake {
       if (d < 1) {
         total = 0;
         alive = false;
+        text("Score:   " + total, 252, 320);
+        frameRate(0);
       }
     }
   }
+
 
   void update() {
     if (total > 0) {
